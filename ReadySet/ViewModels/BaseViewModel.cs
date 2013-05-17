@@ -5,10 +5,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ReadySet.ViewModels
 {
-    class BaseViewModel : INotifyPropertyChanged
+    public class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -16,6 +17,29 @@ namespace ReadySet.ViewModels
         {
             if(PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs((exp.Body as MemberExpression).Member.Name));
+        }
+
+        protected class ActionCommand : ICommand
+        {
+            Action _action;
+
+            public ActionCommand(Action action) { _action = action; }
+
+            #region ICommand Members
+
+            public bool CanExecute(object parameter)
+            {
+                return true;
+            }
+
+            public event EventHandler CanExecuteChanged;
+
+            public void Execute(object parameter)
+            {
+                _action();
+            }
+
+            #endregion
         }
     }
 }

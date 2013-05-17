@@ -21,7 +21,7 @@ namespace ReadySet.Views
         {
             InitializeComponent();
 
-            var vm = new ViewModels.CommandViewModel();
+            DataContext = new ViewModels.CommandViewModel();
         }
     }
 }
