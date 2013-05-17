@@ -15,22 +15,16 @@ using System.Windows.Shapes;
 
 namespace ReadySet.Views
 {
-    public partial class CommandView : Window
+    /// <summary>
+    /// Interaction logic for CoreMenuView.xaml
+    /// </summary>
+    public partial class CoreMenuView : ContextMenu
     {
-        public CommandView()
+        public CoreMenuView()
         {
             InitializeComponent();
 
-            var viewModel = new ViewModels.CommandViewModel();
-
-            viewModel.CloseRequest += CloseRequested;
-
-            DataContext = viewModel;
-        }
-
-        private void CloseRequested(object sender)
-        {
-            Close();
+            DataContext = new ViewModels.CoreMenuViewModel();
         }
     }
 }

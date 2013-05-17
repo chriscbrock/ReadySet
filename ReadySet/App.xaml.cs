@@ -13,11 +13,20 @@ namespace ReadySet
     /// </summary>
     public partial class App : Application
     {
+        private Hardcodet.Wpf.TaskbarNotification.TaskbarIcon _icon;
+
         private void StartApp(object sender, StartupEventArgs e)
         {
-            var window = new Views.CommandView();
+            _icon = new Hardcodet.Wpf.TaskbarNotification.TaskbarIcon();
+            _icon.ContextMenu = new Views.CoreMenuView();
+            _icon.ToolTipText = "ReadySet";
 
-            window.Show();
+            (_icon.ContextMenu.DataContext as Core.BaseViewModel).CloseRequest += CloseRequested;
+        }
+
+        private void CloseRequested(object sender)
+        {
+            Shutdown();
         }
     }
 }

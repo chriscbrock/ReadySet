@@ -5,13 +5,17 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
-namespace ReadySet.ViewModels
+namespace ReadySet.Core
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
+        public delegate void CloseEventHandler(object sender);
+        
         public event PropertyChangedEventHandler PropertyChanged;
+        public event CloseEventHandler CloseRequest;
 
         protected void Changed<T>(Expression<Func<T>> exp)
         {
@@ -40,6 +44,12 @@ namespace ReadySet.ViewModels
             }
 
             #endregion
+        }
+
+        protected void Close()
+        {
+            if (CloseRequest != null)
+                CloseRequest(this);
         }
     }
 }

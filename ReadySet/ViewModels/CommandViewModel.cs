@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace ReadySet.ViewModels
 {
-    public class CommandViewModel : BaseViewModel
+    public class CommandViewModel : Core.BaseViewModel
     {
         private string _prompt;
         private string _command;
@@ -17,13 +17,16 @@ namespace ReadySet.ViewModels
         {
             _prompt = "cmd";
 
+            // Setup commands
             RunCommand = new ActionCommand(RunAction);
+            EscCommand = new ActionCommand(Close);
         }
 
         #region Commands
 
         public ICommand RunCommand { get; private set; }
-
+        public ICommand EscCommand { get; private set; }
+        
         #endregion
 
         #region Actions
@@ -32,9 +35,9 @@ namespace ReadySet.ViewModels
         {
             Process.Start(CommandText);
 
-            CommandText = string.Empty;
+            Close();
         }
-
+        
         #endregion
 
         #region Properties
