@@ -2,11 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:tb="http://www.hardcodet.net/taskbar"
-        Height="75" Width="525" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
-        BorderThickness="15px" BorderBrush="#33000000" AllowsTransparency="True" ShowInTaskbar="False">
+        Height="auto" Width="525" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
+        BorderThickness="15px" BorderBrush="#33000000" AllowsTransparency="True" ShowInTaskbar="False" SizeToContent="Height">
     <Window.InputBindings>
         <KeyBinding Key="Enter" Command="{Binding RunCommand}" />
         <KeyBinding Key="Escape" Command="{Binding EscCommand}" />
+        <KeyBinding Key="C" Modifiers="Control+Shift" Command="{Binding SetCmdRunnerCommand}" />
+        <KeyBinding Key="P" Modifiers="Control+Shift" Command="{Binding SetPsRunnerCommand}" />
     </Window.InputBindings>
     <Border BorderThickness="1px" BorderBrush="Black">
         <Grid FocusManager.FocusedElement="{Binding ElementName=command}">
@@ -14,8 +16,18 @@
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Label Width="auto" Height="auto" FontSize="30px" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold" Padding="5,0,0,0" Content="{Binding Prompt}" />
-            <TextBox x:Name="command" Width="auto" Height="auto" FontSize="30px" BorderThickness="0" Grid.Column="1" VerticalAlignment="Center" Text="{Binding Path=CommandText, UpdateSourceTrigger=PropertyChanged}" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <!-- Row 1 -->
+            <Label Width="auto" Height="40px" FontSize="30px" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" FontWeight="Bold" Padding="5,1,0,1" Content="{Binding Prompt}" />
+            <TextBox x:Name="command" Width="auto" Height="40px" FontSize="30px" BorderThickness="0" Grid.Column="1" Grid.Row="0" Padding="0,1,0,1" 
+                     VerticalAlignment="Center" Text="{Binding Path=CommandText, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CommandInputEnabled}"/>
+            
+            <!-- Row 2 -->
+            <ProgressBar Height="20px" Grid.Row="1" Grid.ColumnSpan="2" Margin="5,5,5,5" IsIndeterminate="True" Visibility="Collapsed"  />
         </Grid>
     </Border>
 </Window>
