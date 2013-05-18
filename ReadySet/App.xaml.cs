@@ -14,19 +14,30 @@ namespace ReadySet
     public partial class App : Application
     {
         private Hardcodet.Wpf.TaskbarNotification.TaskbarIcon _icon;
+        private ViewModels.CoreMenuViewModel _viewModel;
+        private Core.GlobalHotKey _hotKey;
 
         private void StartApp(object sender, StartupEventArgs e)
         {
+            _viewModel = new ViewModels.CoreMenuViewModel();
+            
             _icon = new Hardcodet.Wpf.TaskbarNotification.TaskbarIcon();
-            _icon.ContextMenu = new Views.CoreMenuView();
+            _icon.ContextMenu = new Views.CoreMenuView(_viewModel);
             _icon.ToolTipText = "ReadySet";
 
-            (_icon.ContextMenu.DataContext as Core.BaseViewModel).CloseRequest += CloseRequested;
+            _viewModel.CloseRequest += CloseRequested;
+
+            _hotKey = new Core.GlobalHotKey(System.Windows.Input.Key.C, Core.KeyModifier.Shift | Core.KeyModifier.Win, HotKeyPressed);
         }
 
         private void CloseRequested(object sender)
         {
             Shutdown();
+        }
+
+        private void HotKeyPressed(Core.GlobalHotKey hotkey)
+        {
+            _viewModel.OpenAction();
         }
     }
 }

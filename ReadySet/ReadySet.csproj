@@ -65,6 +65,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\GlobalHotKey.cs" />
     <Compile Include="ViewModels\CoreMenuViewModel.cs" />
     <Compile Include="Views\CoreMenuView.xaml.cs">
       <DependentUpon>CoreMenuView.xaml</DependentUpon>

@@ -20,11 +20,14 @@ namespace ReadySet.Views
     /// </summary>
     public partial class CoreMenuView : ContextMenu
     {
-        public CoreMenuView()
+        public CoreMenuView(Core.BaseViewModel viewModel = null)
         {
             InitializeComponent();
 
-            DataContext = new ViewModels.CoreMenuViewModel();
+            if (viewModel == null)
+                DataContext = new ViewModels.CoreMenuViewModel();
+            else
+                DataContext = viewModel;
         }
     }
 }

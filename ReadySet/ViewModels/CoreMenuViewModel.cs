@@ -31,12 +31,12 @@ namespace ReadySet.ViewModels
         #region Actions
 
         public void OpenAction() { (new Views.CommandView()).Show(); }
+        
+        private void AboutAction() { }
 
-        public void AboutAction() { }
+        private void SettingsAction() { }
 
-        public void SettingsAction() { }
-
-        public void HelpAction() { }
+        private void HelpAction() { }
 
         #endregion
     }
