@@ -24,6 +24,7 @@ namespace ReadySet
             _icon = new Hardcodet.Wpf.TaskbarNotification.TaskbarIcon();
             _icon.ContextMenu = new Views.CoreMenuView(_viewModel);
             _icon.ToolTipText = "ReadySet";
+            _icon.Icon = ReadySet.Properties.Resources.icon_small;
 
             _viewModel.CloseRequest += CloseRequested;
 
