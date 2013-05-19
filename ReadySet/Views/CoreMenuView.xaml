@@ -5,10 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d">
     <MenuItem Header="Open" Command="{Binding OpenCommand}"/>
+    <!--
     <Separator />
     <MenuItem Header="About" Command="{Binding AboutCommand}" />
     <MenuItem Header="Settings" Command="{Binding SettingsCommand}" />
     <MenuItem Header="Help" Command="{Binding HelpCommand}" />
+    -->
     <Separator />
     <MenuItem Header="Exit" Command="{Binding ExitCommand}"/>
 </ContextMenu>
