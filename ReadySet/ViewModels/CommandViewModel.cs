@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Diagnostics;
+using System.Windows;
 
 namespace ReadySet.ViewModels
 {
@@ -12,13 +14,18 @@ namespace ReadySet.ViewModels
     {
         private Core.IRunner _runner;
         private string _command;
+        private string _commandOutput;
         private bool _commandInputEnabled;
+        private Visibility _progressBarVisibility;
+        private Visibility _outputVisibility;
 
         public CommandViewModel()
         {
             Runner = new Runners.CommandRunner();
 
             CommandInputEnabled = true;
+            ProgressBarVisibility = Visibility.Collapsed;
+            OutputVisibility = Visibility.Collapsed;
 
             // Setup commands
             RunCommand = new ActionCommand(RunAction);
@@ -38,11 +45,25 @@ namespace ReadySet.ViewModels
 
         #region Actions
 
-        private void RunAction()
+        private async void RunAction()
         {
-            _runner.Run(_command);
+            if (_runner.HasOutput)
+            {
+                ProgressBarVisibility = Visibility.Visible;
+                CommandInputEnabled = false;
 
-            Close();
+                string[] output = await _runner.RunAsync(CommandText);
+
+                CommandOutput = string.Join("\n", output);
+                OutputVisibility = Visibility.Visible;
+                ProgressBarVisibility = Visibility.Collapsed;
+            }
+            else
+            {
+                _runner.Run(CommandText);
+
+                Close();
+            }
         }
 
         private void SetCmdRunnerAction()
@@ -89,6 +110,41 @@ namespace ReadySet.ViewModels
                 Changed(() => CommandInputEnabled);
             }
         }
+
+        public string CommandOutput
+        {
+            get { return _commandOutput; }
+            set
+            {
+                _commandOutput = value;
+
+                Changed(() => CommandOutput);
+            }
+        }
+
+        public Visibility ProgressBarVisibility
+        {
+            get { return _progressBarVisibility; }
+            set
+            {
+                _progressBarVisibility = value;
+
+                Changed(() => ProgressBarVisibility);
+            }
+        }
+
+        public Visibility OutputVisibility
+        {
+            get { return _progressBarVisibility; }
+            set
+            {
+                _outputVisibility = value;
+
+                Changed(() => OutputVisibility);
+            }
+        }
+
+        /* Private */
 
         private Core.IRunner Runner
         {

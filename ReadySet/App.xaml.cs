@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ReadySet
 {
@@ -28,7 +29,7 @@ namespace ReadySet
 
             _viewModel.CloseRequest += CloseRequested;
 
-            _hotKey = new Core.GlobalHotKey(System.Windows.Input.Key.C, Core.KeyModifier.Shift | Core.KeyModifier.Win, HotKeyPressed);
+            _hotKey = new Core.GlobalHotKey(Key.C, Core.KeyModifier.Shift | Core.KeyModifier.Win, HotKeyPressed);
         }
 
         private void CloseRequested(object sender)

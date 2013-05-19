@@ -8,6 +8,6 @@ namespace ReadySet.Core
 
         string Prompt { get; }
         string Name { get; }
-        bool Output { get; }
+        bool HasOutput { get; }
     }
 }

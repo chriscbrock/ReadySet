@@ -24,7 +24,7 @@ namespace ReadySet.Runners
             get { return "Command Runner"; }
         }
 
-        public bool Output
+        public bool HasOutput
         {
             get { return false; }
         }

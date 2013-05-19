@@ -24,7 +24,7 @@ namespace ReadySet.Runners
             get { return "Powershell Runner"; }
         }
 
-        public bool Output
+        public bool HasOutput
         {
             get { return true; }
         }
@@ -34,7 +34,9 @@ namespace ReadySet.Runners
         {
             var shell = PowerShell.Create();
 
-            var result = await Task.Run(() => shell.Invoke(new [] { command }));
+            shell.AddCommand(command);
+
+            var result = await Task.Run(() => shell.Invoke());
             
             return result.Select(r => r.ToString()).ToArray();
         }

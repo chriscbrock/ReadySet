@@ -9,6 +9,8 @@ namespace ReadySet.ViewModels
 {
     public class CoreMenuViewModel : Core.BaseViewModel
     {
+        private bool _commandViewOpen = false;
+
         public CoreMenuViewModel()
         {
             OpenCommand = new ActionCommand(OpenAction);
@@ -30,13 +32,31 @@ namespace ReadySet.ViewModels
 
         #region Actions
 
-        public void OpenAction() { (new Views.CommandView()).Show(); }
+        public void OpenAction() 
+        {
+            if (_commandViewOpen)
+                return;
+
+            _commandViewOpen = true;
+
+            var view = new Views.CommandView();
+
+            (view.DataContext as Core.BaseViewModel).CloseRequest += CommandViewClosed;
+
+            view.Show();
+        }
         
         private void AboutAction() { }
 
         private void SettingsAction() { }
 
         private void HelpAction() { }
+
+        #endregion
+
+        #region Event handlers
+
+        private void CommandViewClosed(object sender) { _commandViewOpen = false; }
 
         #endregion
     }
