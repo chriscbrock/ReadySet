@@ -23,14 +23,31 @@ namespace ReadySet.Views
 
             var viewModel = new ViewModels.CommandViewModel();
 
+            // Hookup the event handlers
             viewModel.CloseRequest += CloseRequested;
+            viewModel.MessageBoxRequest += MessageBoxRequested;
 
             DataContext = viewModel;
         }
+
+        void MessageBoxRequested(object sender, Core.BaseViewModel.MessageBoxRequestEventArgs args)
+        {
+            MessageBoxImage image = MessageBoxImage.None;
+
+            if(args.MessageType == Core.BaseViewModel.MessageType.Error) image = MessageBoxImage.Error;
+            else if(args.MessageType == Core.BaseViewModel.MessageType.Info) image = MessageBoxImage.Information;
+            else if(args.MessageType == Core.BaseViewModel.MessageType.Warning) image = MessageBoxImage.Warning;
+
+            MessageBox.Show(args.Message, args.Title, MessageBoxButton.OK, image);
+        }
+
+        #region Event handlers
 
         private void CloseRequested(object sender)
         {
             Close();
         }
+
+        #endregion
     }
 }

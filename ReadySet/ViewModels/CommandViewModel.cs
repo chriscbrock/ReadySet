@@ -47,20 +47,29 @@ namespace ReadySet.ViewModels
 
         private async void RunAction()
         {
-            if (_runner.HasOutput)
+            try
             {
-                ProgressBarVisibility = Visibility.Visible;
-                CommandInputEnabled = false;
+                if (_runner.HasOutput)
+                {
+                    ProgressBarVisibility = Visibility.Visible;
+                    CommandInputEnabled = false;
 
-                string[] output = await _runner.RunAsync(CommandText);
+                    string[] output = await _runner.RunAsync(CommandText);
 
-                CommandOutput = string.Join("\n", output);
-                OutputVisibility = Visibility.Visible;
-                ProgressBarVisibility = Visibility.Collapsed;
+                    CommandOutput = string.Join("\n", output);
+                    OutputVisibility = Visibility.Visible;
+                    ProgressBarVisibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    _runner.Run(CommandText);
+
+                    Close();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _runner.Run(CommandText);
+                ErrorMessage(ex.Message, "Unable to run command");
 
                 Close();
             }
